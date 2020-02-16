@@ -84,7 +84,7 @@
             android:onClick="@{()->handler.update(data)}"
             android:src="@drawable/ic_edit"
             android:padding="@dimen/four_dp"
-            android:tint="#9E9E9E" />
+            />
 
     </RelativeLayout>
 

@@ -12,4 +12,5 @@
     <string name="updated">Note Updated</string>
     <string name="title">Title</string>
     <string name="date">Date</string>
+    <string name="click_here">Click Here For Change Date And Time</string>
 </resources>
