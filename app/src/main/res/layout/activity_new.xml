@@ -1,49 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/fab_margin"
-    >
-    <DatePicker
-        android:id="@+id/date_picker"
-        android:layout_alignParentRight="true"
-        android:datePickerMode="calendar"
-        android:layout_width="@dimen/date_picker_dimen"
-        android:layout_height="@dimen/date_picker_dimen"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
+    <data class="ActivityNewNoteBinding">
+
+        <variable
+            name="data"
+            type="com.demo.test.noteapp.model.NoteData" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isUpdate"
+            type="boolean" />
+
+        <variable
+            name="handler"
+            type="com.demo.test.noteapp.handler.AddNewNoteClickHandler" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <EditText
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:id="@+id/etTitle"
-        android:layout_width="match_parent"
-        android:hint="@string/title"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:textColor="@color/primary_text"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/fab_margin">
 
 
-    <EditText
-        android:id="@+id/etNewNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColor="@color/primary_text"
-        android:layout_gravity="center"
-        android:hint="@string/new_note" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-    <Button
-        android:layout_marginTop="@dimen/ten_dp"
-        android:id="@+id/bAdd"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/icons"
-        android:text="@string/save" />
-    </LinearLayout>
-</RelativeLayout>
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:enabled="false"
+                android:hint="@string/date"
+                android:text="@={data.date}"
+                android:textColor="@color/primary_text" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:hint="@string/title"
+                android:text="@={data.title}"
+                android:textColor="@color/primary_text" />
+
+
+            <EditText
+                android:id="@+id/etNewNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:hint="@string/new_note"
+                android:text="@={data.description}"
+                android:textColor="@color/primary_text" />
+
+            <Button
+                android:id="@+id/bAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@color/colorPrimaryDark"
+                android:onClick="@{()->handler.onClickAddNewNote(data)}"
+                android:text="@string/save"
+                android:textColor="@color/icons"
+                android:visibility="@{!isUpdate ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/ll_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/four_dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="@{isUpdate ? View.VISIBLE : View.GONE}">
+
+                <Button
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/four_dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:onClick="@{()->handler.onClickAddNewNote(data)}"
+                    android:text="@string/update"
+                    android:textColor="@color/icons" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/four_dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:onClick="@{()->handler.cancelUpdate()}"
+                    android:text="@string/cancel"
+                    android:textColor="@color/icons" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</layout>
+

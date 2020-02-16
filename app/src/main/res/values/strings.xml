@@ -11,4 +11,5 @@
     <string name="cancel">Cancel</string>
     <string name="updated">Note Updated</string>
     <string name="title">Title</string>
+    <string name="date">Date</string>
 </resources>

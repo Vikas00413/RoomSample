@@ -4,6 +4,8 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
 
+
+
 class NoteData:BaseObservable() {
     var date:String=""
         @Bindable get() = field
@@ -23,6 +25,7 @@ class NoteData:BaseObservable() {
             field = description
             notifyPropertyChanged(BR.description)
         }
+    var noteid:String?=null
 
 
 }
