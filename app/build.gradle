@@ -53,6 +53,9 @@ dependencies {
     def daggerVersion = "2.24"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0-RC1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0-RC1"
 }
 repositories {
     mavenCentral()

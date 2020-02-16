@@ -1,6 +1,8 @@
 package com.demo.test.noteapp.view.activity
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -19,11 +21,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var binding:ActivityNewNoteBinding=DataBindingUtil.setContentView(this,R.layout.activity_new)
         val cDate = Date()
-        val fDate: String = SimpleDateFormat("MM/dd/yyyy").format(cDate)
+        val fDate: String = SimpleDateFormat("MM/dd/yyyy hh:mm").format(cDate)
        var handler=AddNewNoteClickHandler(this)
         binding.handler=handler
         var data=NoteData()
@@ -39,7 +42,7 @@ class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
 
                     note?.let {
                         data.noteid=noteId
-                        data.date=it!!.date!!
+                        data.date=it.date!!+" "+it.time
                         data.description=it.note
                         data.title=it.title
                     }
@@ -70,10 +73,15 @@ class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
             this,
             DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                 val mymoonth_start = month + 1
+                var data=""
                 if (mymoonth_start < 10) {
-                    etDemoDate.setText("0$mymoonth_start/$dayOfMonth/$year")
+                    data="0$mymoonth_start/$dayOfMonth/$year"
+                   // etDemoDate.setText("0$mymoonth_start/$dayOfMonth/$year")
+                    showDateTimePicker(etDemoDate,data)
                 } else {
-                    etDemoDate.setText("$mymoonth_start/$dayOfMonth/$year")
+                    data="$mymoonth_start/$dayOfMonth/$year"
+                    showDateTimePicker(etDemoDate,data)
+                   // etDemoDate.setText("$mymoonth_start/$dayOfMonth/$year")
                 }
 
 
@@ -94,5 +102,51 @@ class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
                 setDate(etDate)
             }
         }
+    }
+
+    fun showDateTimePicker(editTextTime: EditText,dateStr:String) {
+        val currentDate = Calendar.getInstance()
+        val date = Calendar.getInstance()
+        // Log.e("calender date", "date " +Calendar.newInstance());
+        TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                var hourOfDay = hourOfDay
+                date[Calendar.HOUR_OF_DAY] = hourOfDay
+                date[Calendar.MINUTE] = minute
+                val AM_PM: String
+                val myMinut: String
+                val myHour: String
+
+                  var  starTime = "$hourOfDay:$minute"
+
+                AM_PM = if (hourOfDay < 12) {
+                    "AM"
+                } else if (hourOfDay == 12) {
+                    "AM"
+                } else {
+                    "PM"
+                }
+                if (hourOfDay > 12) {
+                    hourOfDay = hourOfDay - 12
+                } else if (hourOfDay == 12) {
+                    hourOfDay = 0
+                }
+                myHour = if (hourOfDay < 10) {
+                    "0$hourOfDay"
+                } else {
+                    hourOfDay.toString()
+                }
+                myMinut = if (minute < 10) {
+                    "0$minute"
+                } else {
+                    minute.toString()
+                }
+               // editTextTime.setText("$dateStr $myHour : $myMinut $AM_PM")
+                editTextTime.setText("$dateStr  $starTime")
+                // editTextTime.setText(dateType.getTime());
+                // Log.e("Time", "The choosen one " + date.getTime());
+            }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false
+        ).show()
     }
 }

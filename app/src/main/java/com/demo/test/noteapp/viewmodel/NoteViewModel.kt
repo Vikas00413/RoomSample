@@ -9,22 +9,22 @@ import com.demo.test.noteapp.database.DatabaseClient
 import com.demo.test.noteapp.database.Note
 import com.demo.test.noteapp.database.NoteDao
 import com.demo.test.noteapp.database.NoteRoomDatabase
+import com.demo.test.noteapp.util.Coroutines
 
 class NoteViewModel: BaseViewModel {
     private val TAG = this.javaClass.simpleName
     private val noteDao: NoteDao?
-    private val noteDB: NoteRoomDatabase?
     val allNotes: LiveData<List<Note>>?
     fun insert(note: Note?) {
-        InsertAsyncTask(noteDao).execute(note)
+        InsertAsyncTask(noteDao).doInBackground(note)
     }
 
     fun update(note: Note?) {
-        UpdateAsyncTask(noteDao).execute(note)
+        UpdateAsyncTask(noteDao).doInBackground(note)
     }
 
     fun delete(note: Note?) {
-        DeleteAsyncTask(noteDao).execute(note)
+        DeleteAsyncTask(noteDao).doInBackground(note)
     }
 
     override fun onCleared() {
@@ -32,38 +32,43 @@ class NoteViewModel: BaseViewModel {
         Log.i(TAG, "ViewModel Destroyed")
     }
 
-     abstract class OperationsAsyncTask  constructor(var mAsyncTaskDao: NoteDao?) : AsyncTask<Note?, Void?, Void?>() {
-        protected override fun doInBackground(vararg params: Note?): Void? {
-            return null
-        }
+     abstract class OperationsAsyncTask  constructor(var mAsyncTaskDao: NoteDao?) {
+
+       abstract  fun doInBackground( params: Note?)
 
     }
 
+
+
     private inner class InsertAsyncTask internal constructor(mNoteDao: NoteDao?) : OperationsAsyncTask(mNoteDao) {
-        override fun doInBackground(vararg params: Note?): Void? {
-            mAsyncTaskDao!!.insert(params[0])
-            return null
+         override fun doInBackground( note: Note?) {
+
+             Coroutines.io {
+                 mAsyncTaskDao!!.insert(note)
+             }
         }
     }
 
     private inner class UpdateAsyncTask internal constructor(noteDao: NoteDao?) : OperationsAsyncTask(noteDao) {
-        override fun doInBackground(vararg params: Note?): Void? {
-            mAsyncTaskDao!!.update(params[0])
-            return null
+        override fun doInBackground( note: Note?) {
+             Coroutines.io {
+                 mAsyncTaskDao!!.update(note)
+             }
         }
     }
 
     private inner class DeleteAsyncTask(noteDao: NoteDao?) : OperationsAsyncTask(noteDao) {
-        override fun doInBackground(vararg params: Note?): Void? {
-            mAsyncTaskDao!!.delete(params[0])
-            return null
+        override fun doInBackground( note: Note?) {
+             Coroutines.io {
+                 mAsyncTaskDao!!.delete(note)
+             }
         }
     }
   constructor(application: Application?) : super(application!!){
-      //noteDB = DatabaseClient.getInstance(application).appDatabase
-      noteDB = database
-      noteDao = noteDB!!.noteDao()
+      noteDao = database!!.noteDao()
       allNotes = noteDao!!.allNotes
   }
+
+
 
 }

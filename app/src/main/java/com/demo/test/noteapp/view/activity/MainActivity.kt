@@ -14,7 +14,6 @@ import android.widget.Toast
 
 import com.demo.test.noteapp.R
 import com.demo.test.noteapp.adapter.NoteListAdapter
-import com.demo.test.noteapp.adapter.NoteListAdapter.OnDeleteClickListener
 import com.demo.test.noteapp.database.Note
 import com.demo.test.noteapp.databinding.ActivityMainBinding
 import com.demo.test.noteapp.handler.OpenAddNoteActivityHandler
@@ -22,7 +21,7 @@ import com.demo.test.noteapp.util.Constant
 import com.demo.test.noteapp.viewmodel.NoteViewModel
 import java.util.*
 
-class MainActivity : AppCompatActivity(), OnDeleteClickListener {
+class MainActivity : AppCompatActivity(){
     private val TAG = this.javaClass.simpleName
     private var noteViewModel: NoteViewModel? = null
     private var noteListAdapter: NoteListAdapter? = null
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
         var binding:ActivityMainBinding=DataBindingUtil.setContentView(this,R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        noteListAdapter = NoteListAdapter(this, this)
+        noteListAdapter = NoteListAdapter(this)
         var handler= OpenAddNoteActivityHandler(this)
         binding.adapter=noteListAdapter
         binding.handler=handler
@@ -50,7 +49,8 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
                     var date = data.getStringExtra(Constant.DATE)
                     var desc = data.getStringExtra(Constant.NOTE)
                     var title = data.getStringExtra(Constant.TITLE)
-                    val note = Note(note_id, desc, date, title)
+                    var datatime=date.split("\\s".toRegex())
+                    val note = Note(note_id, desc, datatime[0],datatime[1], title)
                     noteViewModel!!.insert(note)
                     Toast.makeText(
                         applicationContext,
@@ -63,8 +63,17 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
                     var note_id = data.getStringExtra(Constant.NOTE_ID)
                     var desc = data.getStringExtra(Constant.NOTE)
                     var title = data.getStringExtra(Constant.TITLE)
-                    val note = Note(note_id, desc, date, title)
-                    noteViewModel!!.update(note)
+                    var datatime=date.split("\\s".toRegex())
+                    val note = Note(note_id, desc, datatime[0],datatime[1], title)
+                    when(data.getStringExtra(Constant.PURPOSE))
+                    {
+                        Constant.UPDATE->{
+                            noteViewModel!!.update(note)
+                        }Constant.DELETE->{
+                           noteViewModel!!.delete(note)
+                         }
+                    }
+
                     Toast.makeText(
                         applicationContext,
                         R.string.updated,
@@ -81,16 +90,20 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
             }
         }else if(resultCode == Activity.RESULT_CANCELED) {
             if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE ) {
-
+                Toast.makeText(
+                    applicationContext,
+                    R.string.not_saved,
+                    Toast.LENGTH_LONG
+                ).show()
             }else if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE ) {
-
+                Toast.makeText(
+                    applicationContext,
+                    R.string.not_saved,
+                    Toast.LENGTH_LONG
+                ).show()
             }
             //Write your code if there's no result
         }
-    }
-
-    override fun OnDeleteClickListener(myNote: Note?) { // Code for Delete operation
-        noteViewModel!!.delete(myNote)
     }
 
     companion object {

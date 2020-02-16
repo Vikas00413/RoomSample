@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.demo.test.noteapp.view.activity.NewNoteActivity"/>
-        <activity android:name="com.demo.test.noteapp.view.activity.EditNoteActivity"/>
     </application>
 
 </manifest>

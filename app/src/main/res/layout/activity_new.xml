@@ -22,7 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/fab_margin">
-
+        <ImageView
+            android:id="@+id/ivRowDelete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/ten_dp"
+            android:visibility="@{isUpdate ? View.VISIBLE : View.GONE}"
+            android:onClick="@{()->handler.delete(data)}"
+            android:src="@drawable/ic_delete"
+            android:tint="#9E9E9E"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:enabled="false"
+                android:focusable="false"
                 android:hint="@string/date"
                 android:text="@={data.date}"
                 android:textColor="@color/primary_text" />
@@ -47,6 +56,8 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:hint="@string/title"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
                 android:text="@={data.title}"
                 android:textColor="@color/primary_text" />
 
@@ -59,6 +70,7 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:hint="@string/new_note"
+                android:maxLength="200"
                 android:text="@={data.description}"
                 android:textColor="@color/primary_text" />
 
