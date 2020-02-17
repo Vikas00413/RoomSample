@@ -18,12 +18,15 @@ import com.demo.test.noteapp.database.Note
 import com.demo.test.noteapp.databinding.ActivityMainBinding
 import com.demo.test.noteapp.handler.OpenAddNoteActivityHandler
 import com.demo.test.noteapp.util.Constant
-import com.demo.test.noteapp.viewmodel.NoteViewModel
+import com.demo.test.noteapp.viewmodel.NoteCrudOperationsViewModel
 import java.util.*
 
+/**
+ * This class is for show all notes in list form
+ */
 class MainActivity : AppCompatActivity(){
     private val TAG = this.javaClass.simpleName
-    private var noteViewModel: NoteViewModel? = null
+    private var noteViewModel: NoteCrudOperationsViewModel? = null
     private var noteListAdapter: NoteListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class MainActivity : AppCompatActivity(){
         binding.adapter=noteListAdapter
         binding.handler=handler
 
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
+        noteViewModel = ViewModelProviders.of(this).get(NoteCrudOperationsViewModel::class.java)
         noteViewModel!!.allNotes!!.observe(this, android.arch.lifecycle.Observer { notes -> noteListAdapter!!.setNotes(notes!!) })
     }
 

@@ -3,6 +3,9 @@ package com.demo.test.noteapp.database
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 
+/**
+ * This is dao interface for accessing db operation methods
+ */
 @Dao
 interface NoteDao {
     @Insert

@@ -5,7 +5,9 @@ import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
 
 
-
+/**
+ * This is class for use get note data from New Note Activity
+ */
 class NoteData:BaseObservable() {
     var date:String=""
         @Bindable get() = field

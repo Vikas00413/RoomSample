@@ -6,6 +6,9 @@ import com.demo.test.noteapp.MyApplication
 import com.demo.test.noteapp.database.NoteRoomDatabase
 import javax.inject.Inject
 
+/**
+ * This base class for access AndroidViewModel and extend by NoteCrudOperationsViewModel,AllNoteViewModel
+ */
 abstract class BaseViewModel: AndroidViewModel {
     @Inject
     lateinit var database:NoteRoomDatabase

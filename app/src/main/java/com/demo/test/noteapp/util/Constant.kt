@@ -1,5 +1,8 @@
 package com.demo.test.noteapp.util
 
+/**
+ * This Constant class holding app constant
+ */
 object Constant {
     val PURPOSE: String?="PURPOSE"
     val UPDATE: String?="UPDATE"

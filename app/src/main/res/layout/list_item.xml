@@ -7,7 +7,7 @@
             type="com.demo.test.noteapp.database.Note" />
         <variable
             name="handler"
-            type="com.demo.test.noteapp.handler.NoteRowClickhandler" />
+            type="com.demo.test.noteapp.handler.NoteRowClickHandler" />
 
     </data>
 

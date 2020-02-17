@@ -1,7 +1,6 @@
 package com.demo.test.noteapp.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,16 +9,16 @@ import com.demo.test.noteapp.R
 import com.demo.test.noteapp.adapter.NoteListAdapter.NoteViewHolder
 import com.demo.test.noteapp.database.Note
 import com.demo.test.noteapp.databinding.NoteBinding
-import com.demo.test.noteapp.handler.NoteRowClickhandler
-import com.demo.test.noteapp.util.Constant
-import com.demo.test.noteapp.view.activity.MainActivity
-import com.demo.test.noteapp.view.activity.NewNoteActivity
-
-class NoteListAdapter(context: Context) : RecyclerView.Adapter<NoteViewHolder>() {
+import com.demo.test.noteapp.handler.NoteRowClickHandler
 
 
+/**
+ * This is adapter class is use for show all notes as list form
+ */
+class NoteListAdapter(val mContext: Context) : RecyclerView.Adapter<NoteViewHolder>() {
 
-    private val mContext: Context
+
+
     private var mNotes: List<Note>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -34,7 +33,7 @@ class NoteListAdapter(context: Context) : RecyclerView.Adapter<NoteViewHolder>()
                 false
 
             )
-        var handler=NoteRowClickhandler(mContext)
+        var handler=NoteRowClickHandler(mContext)
 
         noteBinding.handler=handler
 
@@ -70,8 +69,4 @@ class NoteListAdapter(context: Context) : RecyclerView.Adapter<NoteViewHolder>()
 
     }
 
-    init {
-
-        mContext = context
-    }
 }

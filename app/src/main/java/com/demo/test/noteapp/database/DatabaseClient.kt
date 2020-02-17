@@ -3,6 +3,9 @@ package com.demo.test.noteapp.database
 import android.arch.persistence.room.Room
 import android.content.Context
 
+/**
+ * This class is use for initialise Room Database config
+ */
 class DatabaseClient private constructor(  mCtx: Context) {
     private val DB_NAME = "note.db"
 

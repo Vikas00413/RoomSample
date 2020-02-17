@@ -1,6 +1,6 @@
 package com.demo.test.noteapp.di.modules
 
-import android.app.Application
+
 import com.demo.test.noteapp.MyApplication
 import com.demo.test.noteapp.database.DatabaseClient
 import com.demo.test.noteapp.database.NoteRoomDatabase

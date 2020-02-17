@@ -7,111 +7,95 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.text.TextUtils
 import android.widget.Toast
-import com.demo.test.noteapp.adapter.NoteListAdapter
-import com.demo.test.noteapp.database.Note
 import com.demo.test.noteapp.model.NoteData
 import com.demo.test.noteapp.util.Constant
-import com.demo.test.noteapp.view.activity.NewNoteActivity
+import com.demo.test.noteapp.view.activity.AddUpdateNoteActivity
 
+/**
+ * This is handler class perform add new note,delete note,cancel note
+ */
 class AddNewNoteClickHandler(var context: Context) {
 
-    fun onClickAddNewNote(data:NoteData){
 
-    var note=data.description
-    var date=data.date
-    var titile=data.title
+    /**
+     * this method is for add new note,update note
+     */
+    fun onClickAddNewNote(data: NoteData) {
 
-
+        var note = data.description
+        var date = data.date
+        var titile = data.title
 
         if (TextUtils.isEmpty(date)) {
-            Toast.makeText(context, "Please enter date", Toast.LENGTH_LONG ).show()
+            Toast.makeText(context, "Please enter date", Toast.LENGTH_LONG).show()
 
-        }
-        else if (TextUtils.isEmpty(titile)) {
-            Toast.makeText(context, "Please enter title", Toast.LENGTH_LONG ).show()
-        }
-        else if (TextUtils.isEmpty(note)) {
-            Toast.makeText(context, "Please enter title", Toast.LENGTH_LONG ).show()
+        } else if (TextUtils.isEmpty(titile)) {
+            Toast.makeText(context, "Please enter title", Toast.LENGTH_LONG).show()
+        } else if (TextUtils.isEmpty(note)) {
+            Toast.makeText(context, "Please fill your note", Toast.LENGTH_LONG).show()
         } else {
 
-            if(data.noteid==null) {
+            if (data.noteid == null) {
                 val resultIntent = Intent()
 
                 resultIntent.putExtra(Constant.NOTE, data.description)
                 resultIntent.putExtra(Constant.TITLE, data.title)
                 resultIntent.putExtra(Constant.DATE, data.date)
-                (context as NewNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
-                (context as NewNoteActivity).finish()
-            }else{
+                (context as AddUpdateNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
+                (context as AddUpdateNoteActivity).finish()
+            } else {
                 val resultIntent = Intent()
                 resultIntent.putExtra(Constant.NOTE, data.description)
                 resultIntent.putExtra(Constant.TITLE, data.title)
                 resultIntent.putExtra(Constant.DATE, data.date)
                 resultIntent.putExtra(Constant.NOTE_ID, data.noteid!!)
                 resultIntent.putExtra(Constant.PURPOSE, Constant.UPDATE)
-                (context as NewNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
-                (context as NewNoteActivity).finish()
+                (context as AddUpdateNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
+                (context as AddUpdateNoteActivity).finish()
             }
         }
 
     }
-    fun cancelUpdate(){
+
+    /**
+     * this method is use for cancel update
+     */
+    fun cancelUpdate() {
         val returnIntent = Intent()
-        (context as NewNoteActivity).setResult(Activity.RESULT_CANCELED, returnIntent)
-        (context as NewNoteActivity).finish()
+        (context as AddUpdateNoteActivity).setResult(Activity.RESULT_CANCELED, returnIntent)
+        (context as AddUpdateNoteActivity).finish()
     }
 
-    // Method to show an alert dialog with yes, no and cancel button
-    fun delete(data: NoteData){
-        // Late initialize an alert dialog object
+    /**
+     * this method is for delete note from tabel
+     */
+    fun delete(data: NoteData) {
         lateinit var dialog: AlertDialog
-
-
-        // Initialize a new instance of alert dialog builder object
         val builder = AlertDialog.Builder(context)
-
-        // Set a title for alert dialog
-        builder.setTitle("Are you sure to delete?")
-
-        // Set a message for alert dialog
-        builder.setMessage("This is a sample message of AlertDialog.")
-
-
-        // On click listener for dialog buttons
-        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
-            when(which){
-                DialogInterface.BUTTON_POSITIVE ->{
+        builder.setTitle("Delete Note?")
+        builder.setMessage("Are you sure to delete?")
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
                     val resultIntent = Intent()
                     resultIntent.putExtra(Constant.NOTE, data.description)
                     resultIntent.putExtra(Constant.TITLE, data.title)
                     resultIntent.putExtra(Constant.DATE, data.date)
                     resultIntent.putExtra(Constant.NOTE_ID, data.noteid!!)
                     resultIntent.putExtra(Constant.PURPOSE, Constant.DELETE)
-                    (context as NewNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
-                    (context as NewNoteActivity).finish()
+                    (context as AddUpdateNoteActivity).setResult(Activity.RESULT_OK, resultIntent)
+                    (context as AddUpdateNoteActivity).finish()
                 }
-                DialogInterface.BUTTON_NEGATIVE ->{
+                DialogInterface.BUTTON_NEGATIVE -> {
                     dialog.cancel()
 
                 }
 
             }
         }
-
-
-        // Set the alert dialog positive/yes button
-        builder.setPositiveButton("Delete",dialogClickListener)
-
-        // Set the alert dialog negative/no button
-        builder.setNegativeButton("Cancel",dialogClickListener)
-
-
-
-
-        // Initialize the AlertDialog using builder object
+        builder.setPositiveButton("Delete", dialogClickListener)
+        builder.setNegativeButton("Cancel", dialogClickListener)
         dialog = builder.create()
-
-        // Finally, display the alert dialog
         dialog.show()
     }
 

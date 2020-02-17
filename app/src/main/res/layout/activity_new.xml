@@ -51,6 +51,8 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="@string/date"
+                android:drawablePadding="@dimen/four_dp"
+                android:drawableLeft="@drawable/ic_calendar"
                 android:text="@={data.date}"
                 android:textColor="@color/primary_text" />
 
@@ -61,6 +63,8 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:hint="@string/title"
+                android:drawablePadding="@dimen/four_dp"
+                android:drawableLeft="@drawable/ic_title"
                 android:imeOptions="actionNext"
                 android:maxLines="1"
                 android:text="@={data.title}"
@@ -72,8 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:minHeight="@dimen/eighty_dp"
+                android:background="@drawable/edit_text_bg"
                 android:layout_marginTop="@dimen/ten_dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:gravity="left"
+                android:padding="@dimen/seven_dp"
                 android:hint="@string/new_note"
                 android:maxLength="200"
                 android:text="@={data.description}"
@@ -85,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/ten_dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/button_bg"
                 android:onClick="@{()->handler.onClickAddNewNote(data)}"
                 android:text="@string/save"
                 android:textColor="@color/icons"
@@ -95,17 +102,16 @@
                 android:id="@+id/ll_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/four_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="@{isUpdate ? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/four_dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/button_bg"
                     android:onClick="@{()->handler.onClickAddNewNote(data)}"
                     android:text="@string/update"
                     android:textColor="@color/icons" />
@@ -114,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/four_dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/button_bg"
                     android:onClick="@{()->handler.cancelUpdate()}"
                     android:text="@string/cancel"
                     android:textColor="@color/icons" />

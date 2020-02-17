@@ -15,12 +15,15 @@ import com.demo.test.noteapp.databinding.ActivityNewNoteBinding
 import com.demo.test.noteapp.handler.AddNewNoteClickHandler
 import com.demo.test.noteapp.model.NoteData
 import com.demo.test.noteapp.util.Constant
-import com.demo.test.noteapp.viewmodel.EditNoteViewModel
+import com.demo.test.noteapp.viewmodel.AllNoteViewModel
 import kotlinx.android.synthetic.main.activity_new.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
+/**
+ * This class is use for Add Update ,Delete Note
+ */
+class AddUpdateNoteActivity : AppCompatActivity() , View.OnClickListener{
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,8 @@ class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
         if(intent.hasExtra(Constant.PURPOSE)) {
             if (intent.hasExtra("note_id")) {
                 var noteId = intent.getStringExtra("note_id")
-                var noteModel: EditNoteViewModel? =
-                    ViewModelProviders.of(this).get(EditNoteViewModel::class.java)
+                var noteModel: AllNoteViewModel? =
+                    ViewModelProviders.of(this).get(AllNoteViewModel::class.java)
                 var note = noteModel!!.getNote(noteId)
                 note!!.observe(this, android.arch.lifecycle.Observer { note ->
 
@@ -146,7 +149,7 @@ class NewNoteActivity : AppCompatActivity() , View.OnClickListener{
                 editTextTime.setText("$dateStr  $starTime")
                 // editTextTime.setText(dateType.getTime());
                 // Log.e("Time", "The choosen one " + date.getTime());
-            }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false
+            }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], true
         ).show()
     }
 }
